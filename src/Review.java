@@ -1,3 +1,5 @@
+package src;
+
 /* Review class. */
 public class Review {
     /* Important: Object == workflow, app status, or accCreation before the merge */
@@ -11,7 +13,7 @@ public class Review {
     private Object revAC = null; /* accountCreation! */
 
     /* Constructor method that initializes status and ID of application. */
-    public review(int app_ID, Object status) { /* app_staus! */
+    public Review(int app_ID, Object status) { /* app_staus! */
         this.application_ID = app_ID; 
         this.application_status = status;
     }

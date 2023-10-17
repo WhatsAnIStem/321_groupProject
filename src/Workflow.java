@@ -1,3 +1,4 @@
+package src;
 /* Linked list by ID. */
 class app_Node {
    /* Class attributes. This SLL keeps tracks of items put into the workflow (IDs). This is the backbone of the WF basically. */
@@ -14,12 +15,14 @@ public class Workflow {
    private app_Node tail = null;
    private int length = 0x00000000;
 
+   private static Workflow workflow = new Workflow();
+
    /* Initializing SLL. */
-   public Workflow() {
+   private Workflow() {
       this.head = null;
       this.tail = head;
    }
-   public Workflow(app_Node node) {
+   private Workflow(app_Node node) {
       /* Head initialized. */
       this.head = node;
       this.tail = head;
@@ -27,31 +30,30 @@ public class Workflow {
    }
 
    /* Add node to LL. */
-   public void makeNewWorkflowItem(int application_ID) {
+   public static void makeNewWorkflowItem(int application_ID) {
       app_Node node = new app_Node();
       node.application_ID = application_ID;
       /* Defaults to review. */
       node.application_status = app_status.REVIEW;
    
       /* Sets as head. */
-      if (length == 0x00000000) {
-         this.head = node;
-         this.tail = head;
-         return;
+      if (workflow.length == 0x00000000) {
+         workflow.head = node;
+         workflow.tail = workflow.head;
       }
       else {
          /* Adds to tail otherwise. */
-         tail.next = node;
-         this.tail = tail.next;
+         workflow.tail.next = node;
+         workflow.tail = workflow.tail.next;
       }
-      length++;
+      workflow.length++;
    
       return;
    }
 
    /* Searches workflow and returns first found workflow item of some status. Returns app_ID of that status. */
-   public int getNextWorkflowItem(app_status someStatus) {
-      app_Node trav = head;
+   public static int getNextWorkflowItem(app_status someStatus) {
+      app_Node trav = workflow.head;
       
       while (trav != null) {
          if (trav.application_status == someStatus) { 
@@ -64,8 +66,8 @@ public class Workflow {
    }
 
    /*  Changes status of the workflow item based on ID. */
-   public void updateWorkflowItem(int app_ID, app_status someStatus) {
-      app_Node trav = head;
+   public static void updateWorkflowItem(int app_ID, app_status someStatus) {
+      app_Node trav = workflow.head;
       boolean found = false;
       
       /* Grabs the ID from the LL. */

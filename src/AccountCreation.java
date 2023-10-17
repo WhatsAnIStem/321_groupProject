@@ -1,3 +1,4 @@
+package src;
 /* Account creation class that creates an account. */
 public class AccountCreation {
 
