@@ -1,5 +1,5 @@
 /* Account creation class that creates an account. */
-public class accountCreation {
+public class AccountCreation {
 
     /*
         - application_ID : int
