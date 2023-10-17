@@ -1,4 +1,4 @@
-import src.AccountCreation;
+import src.shared_classes.*;
 
 public class AccountCreationTest {
     

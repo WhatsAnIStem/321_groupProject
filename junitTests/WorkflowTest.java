@@ -1,11 +1,13 @@
-import src.Workflow;
-import src.app_status;
+import src.app_enums.app_status;
+import src.shared_classes.*;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
 
+
+/* Credits: Ti Ervin. */
 public class WorkflowTest{
 
     @Test

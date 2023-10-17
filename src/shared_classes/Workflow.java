@@ -1,4 +1,8 @@
-package src;
+package src.shared_classes;
+
+import src.app_enums.app_status;
+
+/* Credits: Diane Hamilton. */
 /* Linked list by ID. */
 class app_Node {
    /* Class attributes. This SLL keeps tracks of items put into the workflow (IDs). This is the backbone of the WF basically. */

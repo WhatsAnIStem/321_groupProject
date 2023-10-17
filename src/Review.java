@@ -1,32 +1,37 @@
 package src;
 
+import src.app_enums.app_status;
+import src.shared_classes.AccountCreation;
+import src.shared_classes.Workflow;
+
+/* Credits: Diane Hamilton. */
 /* Review class. */
 public class Review {
     /* Important: Object == workflow, app status, or accCreation before the merge */
 
     /* Private class attributes. */
-    private Object application_status = null; /* app_status! */
+    private app_status application_status = null; /* app_status! */
     private int application_ID = 0x00000000;
 
     /* Private pointers to workflow and AC. */
-    private Object revFlow = null; /* workflow! */
-    private Object revAC = null; /* accountCreation! */
+    private Workflow revFlow = null; /* workflow! */
+    private AccountCreation revAC = null; /* accountCreation! */
 
     /* Constructor method that initializes status and ID of application. */
-    public Review(int app_ID, Object status) { /* app_staus! */
+    public Review(int app_ID, app_status status) { /* app_staus! */
         this.application_ID = app_ID; 
         this.application_status = status;
     }
 
     /* Accesses workflow given application ID. */
-    private Object accessWorkflow() { /* workflow! */
+    private Workflow accessWorkflow() { /* workflow! */
         /* Searches thru workflow based on app ID. */
         /* Returns that workflow item. */
         return null;
     }
 
     /* Accesses accountcreation given some application ID. */
-    private Object accessAccountCreation() { /* accountCreation! */
+    private AccountCreation accessAccountCreation() { /* accountCreation! */
         /* Grabs some AC object given some application ID. */
         /* Returns that block of AC data. */
         return null;
