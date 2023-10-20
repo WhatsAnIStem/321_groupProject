@@ -33,9 +33,23 @@ public class AccountCreation {
         - sendEmail(emailType) : void
      */
 
-     /* For tracking application. */
-    static int alien_number = 0;
-    private int application_ID = 0;
+    /* global fields for keeping track of the amount of applications (we assign the IDs sequentially)*/
+    private static int alien_number = 0;
+    private static int application_ID = 0;
+
+    /* fields for consistent and easy input field access */
+    public static final short FIELD_APPLICATIONID = 0;
+    public static final short FIELD_ALIENNUMBER = 1;
+    public static final short FIELD_NAME = 2;
+    public static final short FIELD_DOB = 3;
+    public static final short FIELD_HEIGHT = 4;
+    public static final short FIELD_WEIGHT = 5;
+    public static final short FIELD_EYECOLOR = 6;
+    public static final short FIELD_COUNTRYOFORIGIN= 7;
+    public static final short FIELD_EMAIL = 8;
+    public static final short FIELD_PHONENO = 9;
+    public static final short FIELD_MAILINGADDRESS = 10;
+    public static final short FIELD_NUMFIELDS = 11;
 
     /* Demographics. */
     String name = ""; /* [First Name] [Last Name] */
@@ -65,29 +79,29 @@ public class AccountCreation {
          */
 
         /* Parcing thru the list. */
-        this.name = fieldsList[0];
-        this.dob = fieldsList[1];
-        this.height = Integer.parseInt(fieldsList[2]);
-        this.weight = Integer.parseInt(fieldsList[3]);
-
-        /* Checking eyecolor. */
-        if (fieldsList[4].toUpperCase().contentEquals("BROWN")) { this.eye_color = app_eyecolor.BROWN; }
-        else if (fieldsList[4].toUpperCase().contentEquals("BLUE")) { this.eye_color = app_eyecolor.BLUE; }
-        else if (fieldsList[4].toUpperCase().contentEquals("GREEN")) { this.eye_color = app_eyecolor.GREEN; }
-        /* Base case for invalid eyecolor. */
-        else { this.eye_color = null; }
-        
-        /* Continuing the parse. */
-        this.country_of_origin = fieldsList[5];
-        this.email = fieldsList[6];
-        this.phone_no = Integer.parseInt(fieldsList[7]);
-        this.mailing_address = fieldsList[8];
+        this.name = fieldsList[FIELD_NAME];
+        this.dob = fieldsList[FIELD_DOB];
+        this.height = Integer.parseInt(fieldsList[FIELD_HEIGHT]);
+        this.weight = Integer.parseInt(fieldsList[FIELD_WEIGHT]);
+        this.eye_color = parseEyeColor(fieldsList[FIELD_EYECOLOR]);
+        this.country_of_origin = fieldsList[FIELD_COUNTRYOFORIGIN];
+        this.email = fieldsList[FIELD_EMAIL];
+        this.phone_no = Integer.parseInt(fieldsList[FIELD_PHONENO]);
+        this.mailing_address = fieldsList[FIELD_MAILINGADDRESS];
     }
 
+    private static app_eyecolor parseEyeColor(String eyeColor){
+        /* Checking eyecolor. */
+        if (eyeColor.toUpperCase().contentEquals("BROWN")) { return app_eyecolor.BROWN; }
+        else if (eyeColor.toUpperCase().contentEquals("BLUE")) { return app_eyecolor.BLUE; }
+        else if (eyeColor.toUpperCase().contentEquals("GREEN")) { return app_eyecolor.GREEN; }
+        /* Base case for invalid eyecolor. */
+        return null;
+    }
 
     /* Credits: Ti Ervin. */
     public static int createAccountCreation(String[] fieldsList) {
-        /* Updates database with new information parced from String[] fieldsList. */
+        /* Updates "database" with new information parced from String[] fieldsList. */
         return 0;
     }
 

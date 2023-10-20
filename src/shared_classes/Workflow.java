@@ -34,7 +34,13 @@ public class Workflow {
    }
 
    /* Add node to LL. */
-   public static void makeNewWorkflowItem(int application_ID) {
+   //precondition: application_ID must be greater than zero for successful addition --ti
+   //returns true on success, or false on any failure
+   public static boolean makeNewWorkflowItem(int application_ID) {
+       
+      if(application_ID < 0){
+         return false;
+      }
       app_Node node = new app_Node();
       node.application_ID = application_ID;
       /* Defaults to review. */
@@ -52,7 +58,7 @@ public class Workflow {
       }
       workflow.length++;
    
-      return;
+      return true;
    }
 
    /* Searches workflow and returns first found workflow item of some status. Returns app_ID of that status. */
