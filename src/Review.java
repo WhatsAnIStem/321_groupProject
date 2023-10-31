@@ -4,6 +4,22 @@ import src.app_enums.app_status;
 import src.shared_classes.AccountCreation;
 import src.shared_classes.Workflow;
 
+
+/* UI import stuff. */
+import javafx.application.Application;
+import javafx.scene.Scene;
+
+import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.DatePicker;
+import javafx.util.converter.DateStringConverter;
+
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
+
+import javafx.stage.Stage;
+
+
 /* Credits: Diane Hamilton. */
 /* Review class. */
 public class Review {
