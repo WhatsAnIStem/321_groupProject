@@ -1,5 +1,8 @@
 package src.shared_classes;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import src.app_enums.app_eyecolor;
 
 /* Credits: Diane Hamilton. Ti Ervin. */
@@ -51,6 +54,8 @@ public class AccountCreation {
     public static final short FIELD_MAILINGADDRESS = 10;
     public static final short FIELD_NUMFIELDS = 11;
 
+    public static final List<String> EYE_COLOR_VALUES = buildEyeColorList();
+
     /* Demographics. */
     String name = ""; /* [First Name] [Last Name] */
     String dob = ""; /* month/day/year */
@@ -88,6 +93,15 @@ public class AccountCreation {
         this.email = fieldsList[FIELD_EMAIL];
         this.phone_no = Integer.parseInt(fieldsList[FIELD_PHONENO]);
         this.mailing_address = fieldsList[FIELD_MAILINGADDRESS];
+    }
+
+    /* Credits: Titania Ervin */
+    private static LinkedList<String> buildEyeColorList(){
+        LinkedList<String> list = new LinkedList<String>();
+        list.add("Brown");
+        list.add("Blue");
+        list.add("Green");
+        return list;
     }
 
     private static app_eyecolor parseEyeColor(String eyeColor){
