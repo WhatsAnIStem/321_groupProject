@@ -4,16 +4,16 @@ import src.app_enums.app_status;
 import src.shared_classes.AccountCreation;
 import src.shared_classes.Workflow;
 
+import java.util.Arrays;
+import java.util.Collections;
 
 /* UI import stuff. */
 import javafx.event.EventHandler;
 import javafx.event.ActionEvent;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
 import javafx.application.Application;
-import javafx.beans.property.ObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -52,7 +52,14 @@ public class Review extends Application {
     private TextField valid_country;
     private TextField valid_email;
     private TextField valid_phone;
-    private TextField valid_address;
+
+    /*
+    * [0] : valid_dob
+    * [1] : valid_country
+    * [2] : valid_email
+    * [3] : valid_phone
+     */
+    private String[] changedFields;
 
     private Button submitReview;
 
@@ -100,14 +107,11 @@ public class Review extends Application {
         valid_country = (TextField)reviewScene.lookup("#field_coo");
         valid_email = (TextField)reviewScene.lookup("#field_email");
         valid_phone = (TextField)reviewScene.lookup("#field_phoneNumber");
-        valid_address = (TextField)reviewScene.lookup(("#field_mailingAddress"));
         /* Button for submitting review to the workflow. */
         submitReview = (Button)reviewScene.lookup("#button_submit");
 
         /* Used to check whether or given information is valid. */
         boolean is_valid = true;
-        int empty_fields[] = {0,0,0,0,0};
-
 
         LocalDate curr = LocalDate.now();
         String[] localeCntry = Locale.getISOCountries();
@@ -119,12 +123,16 @@ public class Review extends Application {
          * Country: Country exists?
          * Email: Email exists?
          * Phone: Phone exists?
-         * Address: Address exists?
          * 
          * submitReview: Button pressed after validations finalized.
          */
 
-        while (is_valid == true) {
+        while (is_valid) {
+            /* Checking for valid input. */
+            if (valid_dob.toString().length() == 0 || valid_country.toString().length() == 0 || valid_email.toString().length() == 0 || valid_phone.toString().length() == 0) {
+                is_valid = false;
+            }
+
             /* Checking to see if someone is 18 at time of review. */
             if (curr.getYear() - valid_dob.getValue().getYear() == 18) {
                 /* 283-314 < 0, INVALID */
@@ -134,8 +142,29 @@ public class Review extends Application {
             else if (curr.getYear() - valid_dob.getValue().getYear() < 18) { is_valid = false; }
 
             /* After importing Locale, we can check whether the country we entered is valid. */
+            Arrays.sort(localeCntry);
+            if (Arrays.binarySearch(localeCntry, valid_country.toString()) < 0) { is_valid = false; }
+            
+            /* If email is in correct format. Looks like this:
+             * [string1] @ [email] . [end]
+             */
 
+             /* Email: someEmail@gmail.com
+              * nameMail = [someEmail, gmail.com]. Length: 2
+              * nameMail[1] = "gmail.com"
+              * nameMail[1].split(".") = [gmail, com]. Length: 2
+              * Valid email!
+              */
+            String[] nameMail = valid_email.toString().split("@");
+            if (nameMail.length > 2) { is_valid = false; }
+            if (nameMail[1].split(".").length > 2) { is_valid = false; }
 
+            /* If phone is in correct format. Looks like this: 
+             * [1234567890]
+             */
+            if (valid_phone.toString().length() < 4 || valid_phone.toString().length() > 13) { is_valid = false; }
+
+            /* Breaks if all input is valid. */
             break;
         }
 
@@ -144,23 +173,39 @@ public class Review extends Application {
 
     /* If validation returns false, we may 'correct' the application. */
     /* Uses account creation grabbed from accessAC() */
-    private void editData() { 
+    private void editData(int application_ID, String[] fields) { 
         /* Grabs account creation object. */
         /* Changes some information. */
+
+        /* fields[5]:
+         * [0] : valid_dob
+         * [1] : valid_country
+         * [2] : valid_email
+         * [3] : valid_phone
+         */
+        
+        changedFields = new String[]{fields[0],fields[1],fields[2],fields[3]};
+
+        /* Accesses Account Creation given an applicant's applicant ID. */
         return;
     }
     
     /* If validation returns false, we may reject the application. */
     /* Uses workflow grabbed from accessWF() */
-    private void rejectApplication() {
+    private void rejectApplication(int application_ID) {
         /* Grabs workflow object. */
         /* Changes status of that application to DATA_ENTRY. */
+
+        /* This method sends the application back to the workflow and changes the status back to DE based on ID. */
+        Workflow.updateWorkflowItem(application_ID, app_status.DATA_ENTRY);
+
         return;
     }
 
     /* Shows review screen to reviewer. */
     public void showReviewScreen() {
         /* Does some displaying. */
+        /* Done from ReviewController. */
         return;
     }
 

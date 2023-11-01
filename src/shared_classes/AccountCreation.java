@@ -4,6 +4,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 import src.app_enums.app_eyecolor;
+import src.app_enums.app_status;
+
+import java.util.Collections;
 
 /* Credits: Diane Hamilton. Ti Ervin. */
 /* Account creation class that creates an account. */
@@ -131,7 +134,17 @@ public class AccountCreation {
         /* Parces through fieldsList. */
         /* Checks information for correctness. */
         /* Returns true for correct, else false. */
-        return false;
+
+        /* Does not accept invalid input for validation. */
+        if (fieldsList.length != 9) { return false; }
+        for (int i = 0; i < fieldsList.length; i++) {
+            /* Loops thru fields list to see if we have empty fields. */
+            if (fieldsList[i].length() == 0) { return false; }
+            if (fieldsList[i].compareTo(null) == 0) { return false; }
+            if (fieldsList[i].isBlank()) { return false; }
+        }
+
+        return true;
     }
 
     /* Credits: Diane Hamilton. finalizeAccountCreation finalizes the account creation object and creates a new alien_number. */
@@ -140,6 +153,19 @@ public class AccountCreation {
         /* Searches databases for app_ID. */
         /* Creates alien_number for that application. */
         /* Finalizes application and calls method that sends out email to applicant saying they've been given an alien number. */
+        
+        /* Alien_number assignment. */
+        int mask1 = 0xABCD;
+        int mask2 = 0x5A0F;
+        int hash = String.valueOf((String.valueOf(52*(app_ID%10+10*15+1-60)%4+2).hashCode()*app_ID)).toUpperCase().hashCode();
+        alien_number = String.valueOf(hash + String.valueOf("hello world!")).hashCode()+1;
+        alien_number = ((~(mask1 & alien_number) << 4) ^ mask2) + 0x5;
+        if (alien_number < 0) { alien_number *= (-1); }
+
+        /* Changes status to null to remove it from workflow without really removing it so we have it backed up. */
+        Workflow.updateWorkflowItem(app_ID, null);
+
+        /* Imagine there is something sending an email here. */
         return;
     }    
     
