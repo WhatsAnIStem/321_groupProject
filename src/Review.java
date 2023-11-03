@@ -63,11 +63,11 @@ public class Review extends Application {
 
     private Button submitReview;
 
-    /* Constructor method that initializes status and ID of application. */
-    public Review(int app_ID, app_status status) { /* app_staus! */
+    /* Constructor method that initializes status and ID of application. 
+    public Review(int app_ID, app_status status) { // app_staus! 
         this.application_ID = app_ID; 
         this.application_status = status;
-    }
+    }*/
     
     /* Opening the UI. */
     @Override
