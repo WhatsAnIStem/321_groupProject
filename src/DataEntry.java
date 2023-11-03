@@ -77,21 +77,26 @@ public class DataEntry extends Application{
 
         submitButton = (Button)dataEntryScene.lookup("#button_submit");
 
-        EventHandler submitHandler = new EventHandler<InputEvent>(){
-                public void handle(InputEvent IE){
+        EventHandler submitHandler = new EventHandler<ActionEvent>(){
+                public void handle(ActionEvent AE){
                     //when clicked, get all the field entrys, validate, etc...
                     getFieldsFromScreen();
+                    
                     //if all the fields pass validation...
                     if(performBasicValidation()){
-
+                        //call accountcreation to make a new object
+                        System.out.println("basic validation passed!");
                     }
                     //if not...
                     else{
-
+                        //display error
+                        System.out.println("basic validation failed!");
                     }
                 }
 
         };
+
+        submitButton.setOnAction(submitHandler);
 
     }
 
@@ -100,8 +105,15 @@ public class DataEntry extends Application{
         String middle_name_String = middle_name.getText().trim();
         String last_name_String = last_name.getText().trim();
 
-        fields[AccountCreation.FIELD_NAME] = first_name_String + " " + middle_name_String + " " + last_name_String;
-        fields[AccountCreation.FIELD_DOB] = dob.getValue().toString();
+        fields[AccountCreation.FIELD_NAME] = first_name_String + ";" + middle_name_String + ";" + last_name_String;
+        if((first_name_String.isEmpty() && first_name_String.contains(";")) || (middle_name_String.isEmpty() && middle_name_String.contains(";")) || (last_name_String.isEmpty() &&last_name_String.contains(";"))){
+            fields[AccountCreation.FIELD_NAME] = null;
+        }
+        fields[AccountCreation.FIELD_DOB] = null;
+        if (dob.getValue() != null) {
+            fields[AccountCreation.FIELD_DOB] = dob.getValue().toString();
+        }
+
         fields[AccountCreation.FIELD_HEIGHT] = height.getText();
         fields[AccountCreation.FIELD_WEIGHT] = weight.getText();
         fields[AccountCreation.FIELD_EYECOLOR] = eye_color.getValue();
@@ -112,9 +124,41 @@ public class DataEntry extends Application{
     }
 
     private boolean performBasicValidation(){
-        return false;
+        String[] splitString = fields[AccountCreation.FIELD_NAME].split(";");
+        if(splitString.length != 3){
+            return false;
+        }
+        if(splitString[0].equals("") || splitString[1].equals("") || splitString[2].equals("")){
+            return false;
+        }
+        if(fields[AccountCreation.FIELD_DOB] == null){
+            return false;
+        }
+        if(fields[AccountCreation.FIELD_HEIGHT].equals("")){
+            return false;
+        }
+        if(fields[AccountCreation.FIELD_WEIGHT].equals("")){
+            return false;
+        }
+        if(fields[AccountCreation.FIELD_EYECOLOR].equals("")){
+            return false;
+        }
+        if(fields[AccountCreation.FIELD_COUNTRYOFORIGIN].equals("")){
+            return false;
+        }
+        if(fields[AccountCreation.FIELD_EMAIL].equals("")){
+            return false;
+        }
+        if(fields[AccountCreation.FIELD_PHONENO].equals("")){
+            return false;
+        }
+        if(fields[AccountCreation.FIELD_MAILINGADDRESS].equals("")){
+            return false;
+        }
+        return true;
     }
 
+    //this is handled in DataEntryDriver
     public void showDataEntryScreen(){
         
     }
