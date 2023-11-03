@@ -81,8 +81,8 @@ public class Review extends Application {
         reviewStage.setScene(reviewScene);
         reviewStage.show();
 
-        EventHandler reviewHandler = new EventHandler<InputEvent>(){
-            public void handle(InputEvent IE){
+        EventHandler reviewHandler = new EventHandler<ActionEvent>(){
+            public void handle(ActionEvent AE){
                 //when clicked, get all the field entrys, validate, etc...
                 grabInfo();
                 //if all the fields pass validation...
@@ -100,6 +100,8 @@ public class Review extends Application {
             }
 
         };
+
+        ((Button)(reviewScene.lookup("#button_submit"))).setOnAction(reviewHandler);
     }
 
     /* Accesses workflow given application ID. */
@@ -157,6 +159,8 @@ public class Review extends Application {
         if (valid_dob.toString().length() == 0 || valid_country.toString().length() == 0 || valid_email.toString().length() == 0 || valid_phone.toString().length() == 0) {
             return false;
         }
+
+        System.out.println(valid_dob.toString());
 
         /* Checking to see if someone is 18 at time of review. */
         if (curr.getYear() - valid_dob.getValue().getYear() == 18) {
