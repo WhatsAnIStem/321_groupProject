@@ -50,7 +50,7 @@ EventHandler submitHandler1 = new EventHandler<ActionEvent>(){
         System.out.println("Application Approved!");
         generateEmail();
     }
-}
+};
         Approve.setOnAction(submitHandler1);
     /*The applicant will check the data and confirm if it looks good, otherwise the applicant can confirm the
      information is incorrect then the application will be denied and the approval sends the application back to review. */
@@ -59,7 +59,7 @@ EventHandler submitHandler2 = new EventHandler<ActionEvent>(){
         System.out.println("Application Denied! \nApplication will now send back to review process.");
         denyApplication(application_ID);
     }
-        }
+        };
         Deny.setOnAction(submitHandler2);
     }
 
