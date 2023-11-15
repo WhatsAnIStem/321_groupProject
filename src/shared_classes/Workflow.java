@@ -1,5 +1,7 @@
 package src.shared_classes;
 
+import java.io.File;
+
 import src.app_enums.app_status;
 
 /* Credits: Diane Hamilton. */
@@ -25,9 +27,16 @@ public class Workflow {
    private Workflow() {
       this.head = null;
       this.tail = head;
+      //need to read file and set head and tail accordingly.
+      File data =  new File("./src/shared_classes/WorkflowData");
+      //System.out.println(data.getAbsolutePath());
+      //get file children, iterate through, scan data in each file, make node accordingly.
    }
+
+   //SHOULD NOT BE USED
    private Workflow(app_Node node) {
       /* Head initialized. */
+
       this.head = node;
       this.tail = head;
       length = 1;
@@ -94,6 +103,15 @@ public class Workflow {
       /* Changes status. */
       trav.application_status = someStatus;
       return;
+   }
+
+   private static boolean updateWorkflowFile(int app_ID, app_status someStatus){
+
+      return false;
+   }
+
+   public static void main(String[] args){
+
    }
 
 }
