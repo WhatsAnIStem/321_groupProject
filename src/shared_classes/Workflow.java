@@ -141,10 +141,20 @@ public class Workflow {
       else if(curr.application_ID == app_ID){
          //update the head
          if(someStatus == null){
-
+            //reset the head...
+            workflow.head = curr.next;
+            curr.next = null;
+            //delete the file storing the data...
+            try{
+               new File(FILEPATH + "/" + app_ID).delete();
+            }
+            catch(Exception E){}
          }
          else{
-
+            //update the node...
+            curr.application_status = someStatus;
+            //update the file...
+            updateWorkflowFile(app_ID, someStatus);
          }
       }
       else{
