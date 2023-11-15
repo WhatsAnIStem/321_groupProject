@@ -45,6 +45,10 @@ public class Workflow {
       String field;
       app_Node node;
       for(File fileItem: children){
+         //skip dummy data
+         if(fileItem.getName().equals("-1")){
+            continue;
+         }
          try{
             //prepare node
             reader = new Scanner(fileItem.toPath());
