@@ -130,25 +130,48 @@ public class Workflow {
       return -1;
    }
 
-   /*  Changes status of the workflow item based on ID. */
+   /*  Changes status of the workflow item based on ID. 
+    * NEED TO ADD PROPER REMOVAL FUNCTIONALITY, REMOVE TAIL POINTER?
+   */
    public static void updateWorkflowItem(int app_ID, app_status someStatus) {
-      app_Node trav = workflow.head;
-      boolean found = false;
-      
-      /* Grabs the ID from the LL. */
-      while (trav != null) {
-         if (trav.application_ID == app_ID) { found = true; 
-            break; }
-         trav = trav.next;
+      app_Node curr = workflow.head;
+      if(curr == null){
+         return;
       }
-   
-      /* Invalid ID. */
-      if (!found) { 
-         return; }
-   
-      /* Changes status. */
-      trav.application_status = someStatus;
-      updateWorkflowFile(app_ID, someStatus);
+      else if(curr.application_ID == app_ID){
+         //update the head
+         if(someStatus == null){
+
+         }
+         else{
+
+         }
+      }
+      else{
+         while(curr.next != null && curr.next.application_ID != app_ID){
+            curr = curr.next;
+         }
+         //at this point, curr's next is either null or the node we are looking for...
+         if(curr.next == null){
+            return;
+         }
+         //curr's next is the node we are looking for.
+         //if we intend to remove the node..
+         if(someStatus == null){
+            //unlink the node and remove the file...
+            curr.next = curr.next.next;
+            //remove file...
+            try{
+               new File(FILEPATH + "/" + app_ID).delete();
+            }
+            catch(Exception E){}
+         }
+         else{
+            //update node and update file...
+            curr.next.application_status = someStatus;
+            updateWorkflowFile(app_ID, someStatus);
+         }
+      }
    }
 
    private static boolean updateWorkflowFile(int app_ID, app_status someStatus){
