@@ -1,6 +1,6 @@
 package src;
 
-public class DataEntryDriver{
+public class DataEntryController{
     
     public static void main(String[] args){
         // launch the form...
