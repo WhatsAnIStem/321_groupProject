@@ -1,8 +1,16 @@
 package src.shared_classes;
 
 import java.io.File;
+import java.io.PrintStream;
+import java.util.Scanner;
 
 import src.app_enums.app_status;
+
+/* FILE DATA SHOULD BE FORMATTED AS SO:
+ * FILE NAME: applicant_id
+ * LINE 1: applicant_id
+ * LINE 2: app_status
+ */
 
 /* Credits: Diane Hamilton. */
 /* Linked list by ID. */
@@ -21,6 +29,7 @@ public class Workflow {
    private app_Node tail = null;
    private int length = 0x00000000;
 
+   private static final String FILEPATH = "./src/shared_classes/WorkflowData";
    private static Workflow workflow = new Workflow();
 
    /* Initializing SLL. */
@@ -28,9 +37,42 @@ public class Workflow {
       this.head = null;
       this.tail = head;
       //need to read file and set head and tail accordingly.
-      File data =  new File("./src/shared_classes/WorkflowData");
+      File data =  new File(FILEPATH);
       //System.out.println(data.getAbsolutePath());
       //get file children, iterate through, scan data in each file, make node accordingly.
+      File[] children = data.listFiles();
+      Scanner reader = null;
+      String field;
+      app_Node node;
+      for(File fileItem: children){
+         try{
+            //prepare node
+            reader = new Scanner(fileItem.toPath());
+            field = reader.nextLine();
+            node = new app_Node();
+            node.application_ID = Integer.parseInt(field);
+            field = reader.nextLine();
+            node.application_status = parseAppStatus(field);
+            //insert into workflow
+            if(head == null){
+               head = node;
+               tail = head;
+            }
+            else{
+               tail.next = node;
+               tail = node;
+            }
+         }
+         catch(Exception E){
+            System.err.println("Error reading file path: " + fileItem.toPath());
+            System.err.println(E);
+         }
+         finally{
+            if(reader != null){
+               reader.close();
+            }
+         }
+      }
    }
 
    //SHOULD NOT BE USED
@@ -66,7 +108,7 @@ public class Workflow {
          workflow.tail = workflow.tail.next;
       }
       workflow.length++;
-   
+      updateWorkflowFile(node.application_ID, node.application_status);
       return true;
    }
 
@@ -102,12 +144,51 @@ public class Workflow {
    
       /* Changes status. */
       trav.application_status = someStatus;
-      return;
+      updateWorkflowFile(app_ID, someStatus);
    }
 
    private static boolean updateWorkflowFile(int app_ID, app_status someStatus){
+      PrintStream fileout = null;
+      try{
+         fileout = new PrintStream(new File(FILEPATH + app_ID));
+         fileout.println(app_ID);
+         fileout.println(parseAppStatus(someStatus));
+         fileout.flush();
+         fileout.close();
+         return true;
+      }
+      catch(Exception E){
+         if(fileout != null){
+            fileout.close();
+         }
+         return false;
+      }
+   }
 
-      return false;
+   private static app_status parseAppStatus(String status){
+      if(status.equals("data_entry")){
+         return app_status.DATA_ENTRY;
+      }
+      if(status.equals("review")){
+         return app_status.REVIEW;
+      }
+      if(status.equals("approval")){
+         return app_status.APPROVAL;
+      }
+      return null;
+   }
+
+   private static String parseAppStatus(app_status status){
+      if(status.equals(app_status.DATA_ENTRY)){
+         return "data_entry";
+      }
+      if(status.equals(app_status.REVIEW)){
+         return "review";
+      }
+      if(status.equals(app_status.APPROVAL)){
+         return "approval";
+      }
+      return null;
    }
 
    public static void main(String[] args){
