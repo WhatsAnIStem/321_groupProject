@@ -26,8 +26,7 @@ class app_Node {
 /* Workflow. */
 public class Workflow {
    private app_Node head = null;
-   private app_Node tail = null;
-   private int length = 0x00000000;
+   private int length;
 
    private static final String FILEPATH = "./src/shared_classes/WorkflowData";
    private static Workflow workflow = new Workflow();
@@ -35,7 +34,7 @@ public class Workflow {
    /* Initializing SLL. */
    private Workflow() {
       this.head = null;
-      this.tail = head;
+      length = 0;
       //need to read file and set head and tail accordingly.
       File data =  new File(FILEPATH);
       //System.out.println(data.getAbsolutePath());
@@ -58,13 +57,8 @@ public class Workflow {
             field = reader.nextLine();
             node.application_status = parseAppStatus(field);
             //insert into workflow
-            if(head == null){
-               head = node;
-               tail = head;
-            }
-            else{
-               tail.next = node;
-               tail = node;
+            if(!insertWorkflowNode(node)){
+               System.err.println("Failed to insert node id: " + node.application_ID);
             }
          }
          catch(Exception E){
@@ -79,18 +73,30 @@ public class Workflow {
       }
    }
 
-   //SHOULD NOT BE USED
-   private Workflow(app_Node node) {
-      /* Head initialized. */
-
-      this.head = node;
-      this.tail = head;
-      length = 1;
-   }
-
    /* Add node to LL. */
    //precondition: application_ID must be greater than zero for successful addition --ti
    //returns true on success, or false on any failure
+   //need to rework this code...
+   private static boolean insertWorkflowNode(app_Node newNode){
+      app_Node curr = workflow.head;
+      if(curr == null){
+         workflow.head = newNode;
+      }
+      else{
+         while(curr.next != null && newNode.application_ID > curr.next.application_ID){
+            curr = curr.next;
+         }
+         //at this point, curr's next is either null , the same id as curr, or the right spot..
+         if(curr.next.application_ID == newNode.application_ID){
+            return false;
+         }
+         newNode.next = curr.next.next;
+         curr.next = newNode;
+      }
+      workflow.length++;
+      return true;
+   }
+
    public static boolean makeNewWorkflowItem(int application_ID) {
        
       if(application_ID < 0){
@@ -100,20 +106,11 @@ public class Workflow {
       node.application_ID = application_ID;
       /* Defaults to review. */
       node.application_status = app_status.REVIEW;
-   
-      /* Sets as head. */
-      if (workflow.length == 0x00000000) {
-         workflow.head = node;
-         workflow.tail = workflow.head;
+      if(insertWorkflowNode(node)){
+         updateWorkflowFile(node.application_ID, node.application_status);
+         return true;
       }
-      else {
-         /* Adds to tail otherwise. */
-         workflow.tail.next = node;
-         workflow.tail = workflow.tail.next;
-      }
-      workflow.length++;
-      updateWorkflowFile(node.application_ID, node.application_status);
-      return true;
+      return false;
    }
 
    /* Searches workflow and returns first found workflow item of some status. Returns app_ID of that status. */
@@ -228,8 +225,6 @@ public class Workflow {
       return null;
    }
 
-   public static void main(String[] args){
-
-   }
-
+   //left in for testing...
+   public static void main(String[] args){}
 }
