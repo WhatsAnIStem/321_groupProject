@@ -2,10 +2,13 @@ package src.shared_classes;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Scanner;
 
 import src.app_enums.app_eyecolor;
 import src.app_enums.app_status;
 
+import java.io.File;
+import java.io.PrintStream;
 import java.util.Collections;
 
 /* Credits: Diane Hamilton. Ti Ervin. */
@@ -40,8 +43,9 @@ public class AccountCreation {
      */
 
     /* global fields for keeping track of the amount of applications (we assign the IDs sequentially)*/
-    private static int alien_number = 0;
-    private static int application_ID = 0;
+    private static int alien_numberTracker = 0;
+    private static int application_IDTracker = getNextAppId();
+
 
     /* fields for consistent and easy input field access */
     public static final short FIELD_APPLICATIONID = 0;
@@ -58,8 +62,11 @@ public class AccountCreation {
     public static final short FIELD_NUMFIELDS = 11;
 
     public static final List<String> EYE_COLOR_VALUES = buildEyeColorList();
+    private static final String FILEPATH = "./src/shared_classes/AccountCreationData";
 
     /* Demographics. */
+    int alien_number = -1;
+    int application_ID = -1;
     String name = ""; /* [First Name] [Last Name] */
     String dob = ""; /* month/day/year */
     int height = 0; /* In inches. */
@@ -86,7 +93,9 @@ public class AccountCreation {
          * 8: mailing_add
          */
 
-        /* Parcing thru the list. */
+        /* Parsing thru the list. */
+        this.alien_number = Integer.parseInt(fieldsList[FIELD_ALIENNUMBER]);
+        this.application_ID = Integer.parseInt(fieldsList[FIELD_APPLICATIONID]);
         this.name = fieldsList[FIELD_NAME];
         this.dob = fieldsList[FIELD_DOB];
         this.height = Integer.parseInt(fieldsList[FIELD_HEIGHT]);
@@ -99,6 +108,7 @@ public class AccountCreation {
     }
 
     /* Credits: Titania Ervin */
+    //DONE
     private static LinkedList<String> buildEyeColorList(){
         LinkedList<String> list = new LinkedList<String>();
         list.add("Brown");
@@ -106,7 +116,8 @@ public class AccountCreation {
         list.add("Green");
         return list;
     }
-
+    
+    //DONE
     private static app_eyecolor parseEyeColor(String eyeColor){
         /* Checking eyecolor. */
         if (eyeColor.toUpperCase().contentEquals("BROWN")) { return app_eyecolor.BROWN; }
@@ -116,15 +127,72 @@ public class AccountCreation {
         return null;
     }
 
-    /* Credits: Ti Ervin. */
-    public static int createAccountCreation(String[] fieldsList) {
-        /* Updates "database" with new information parced from String[] fieldsList. */
-        return 0;
+    //DONE
+    private static String parseEyeColor(app_eyecolor eyeColor){
+        if(eyeColor.equals(app_eyecolor.BROWN)){
+            return "brown";
+        }
+        if(eyeColor.equals(app_eyecolor.BLUE)){
+            return "blue";
+        }
+        if(eyeColor.equals(app_eyecolor.GREEN)){
+            return "green";
+        }
+        return null;
     }
 
-    /* Credits: Diane Hamilton. getAccoutnCreationByID AC obj. */
+
+    /* Credits: Ti Ervin. */
+    //DONE
+    public static int createNewAccountCreation(String[] fieldsList) {
+        /* Updates "database" with new information parced from String[] fieldsList. */
+        //make a new accountCreation...
+        //assign an applicantid
+        //save to database...
+        fieldsList[FIELD_ALIENNUMBER] = "-1";
+        fieldsList[FIELD_APPLICATIONID] = ("" +  application_IDTracker);
+        application_IDTracker++;
+        AccountCreation ans = new AccountCreation(fieldsList);
+        saveAccountCreationToDatabase(ans);
+        return ans.application_ID;
+    }
+
+    /* Credits: Diane Hamilton, Titania Ervin. getAccoutnCreationByID AC obj. */
+    //DONE
     public static AccountCreation getAccountCreationByID(int app_ID) {
         /* Asks database for the application ID. */
+        Scanner reader = null;
+        File parent = new File(FILEPATH);
+        for(File child: parent.listFiles()){
+            if(child.getName().equals(app_ID + "")){
+                //if we found the child we want, read and build, return
+                String[] fieldsList = new String[FIELD_NUMFIELDS];
+                try{
+                    reader = new Scanner(FILEPATH + "/" + app_ID);
+                    fieldsList[FIELD_APPLICATIONID] = reader.nextLine();
+                    fieldsList[FIELD_ALIENNUMBER] = reader.nextLine();
+                    fieldsList[FIELD_NAME] = reader.nextLine();
+                    fieldsList[FIELD_DOB] = reader.nextLine();
+                    fieldsList[FIELD_HEIGHT] = reader.nextLine();
+                    fieldsList[FIELD_WEIGHT] = reader.nextLine();
+                    fieldsList[FIELD_EYECOLOR] = reader.nextLine();
+                    fieldsList[FIELD_COUNTRYOFORIGIN] = reader.nextLine();
+                    fieldsList[FIELD_EMAIL] = reader.nextLine();
+                    fieldsList[FIELD_PHONENO] = reader.nextLine();
+                    fieldsList[FIELD_MAILINGADDRESS] = reader.nextLine();
+                    AccountCreation ans = new AccountCreation(fieldsList);
+                    reader.close();
+                    return ans;
+                }
+                catch(Exception E){
+                    if(reader != null){
+                        reader.close();
+                    }
+                    System.err.println(E);
+                    return null;
+                }
+            }
+        }
         /* Creates a new AccountCreation obj - calls constructor. */
         return null;
     }
@@ -147,26 +215,78 @@ public class AccountCreation {
         return true;
     }
 
-    /* Credits: Diane Hamilton. finalizeAccountCreation finalizes the account creation object and creates a new alien_number. */
+    /* Credits: Diane Hamilton, Titania Ervin finalizeAccountCreation finalizes the account creation object and creates a new alien_number. */
+    //DONE
     public static void finalizeAccountCreation(int app_ID) {
         /* Receives an app_ID. */
         /* Searches databases for app_ID. */
         /* Creates alien_number for that application. */
         /* Finalizes application and calls method that sends out email to applicant saying they've been given an alien number. */
-        
+        AccountCreation child = getAccountCreationByID(app_ID);
+        if(child == null){
+            return;
+        }
         /* Alien_number assignment. */
-        int mask1 = 0xABCD;
-        int mask2 = 0x5A0F;
         int hash = String.valueOf((String.valueOf(52*(app_ID%10+10*15+1-60)%4+2).hashCode()*app_ID)).toUpperCase().hashCode();
-        alien_number = String.valueOf(hash + String.valueOf("hello world!")).hashCode()+1;
-        alien_number = ((~(mask1 & alien_number) << 4) ^ mask2) + 0x5;
-        if (alien_number < 0) { alien_number *= (-1); }
+        if (hash < 0) { hash *= (-1); }
+        child.alien_number = hash;
+        saveAccountCreationToDatabase(child);
 
         /* Changes status to null to remove it from workflow without really removing it so we have it backed up. */
         Workflow.updateWorkflowItem(app_ID, null);
 
         /* Imagine there is something sending an email here. */
-        return;
+        //INTERFACE FOR EMAIL MODULE (NO NEED TO IMPLEMENT)
     }    
+
+    //saves an accountcreation to the "database", this is the only method that does any writing
+    //DONE
+    private static boolean saveAccountCreationToDatabase(AccountCreation ac){
+        //open file of ac's application id...
+        PrintStream out = null;
+        try{
+            out = new PrintStream(new File(FILEPATH + "/" + ac.application_ID));
+            out.println(ac.alien_number);
+            out.println(ac.application_ID);
+            out.println(ac.name);
+            out.println(ac.dob);
+            out.println(ac.height);
+            out.println(ac.weight);
+            out.println(ac.eye_color);
+            out.println(ac.country_of_origin);
+            out.println(ac.email);
+            out.println(ac.phone_no);
+            out.println(ac.mailing_address);
+            out.close();
+        }
+        catch(Exception E){
+            if(out != null){
+                out.close();
+            }
+            return false;
+        }
+        return true;
+    }
+
+    //returns the next appid
+    private static int getNextAppId(){
+        //scan file, get the highest number... next id is that +1
+        Scanner reader = null;
+        int ans = 0;
+        try{
+            File top = new File(FILEPATH);
+            File[] children = top.listFiles();
+            for(File child: children){
+                ans = Math.max(ans, Integer.parseInt(child.getName()));
+            }
+            ans++;
+        }
+        catch(Exception E){
+            System.err.println(E);
+        }
+        return ans;
+    }
     
+    //for testing only :)
+    public static void main(String args[]){}
 }
