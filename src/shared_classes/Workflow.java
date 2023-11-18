@@ -184,7 +184,7 @@ public class Workflow {
    private static boolean updateWorkflowFile(int app_ID, app_status someStatus){
       PrintStream fileout = null;
       try{
-         fileout = new PrintStream(new File(FILEPATH + app_ID));
+         fileout = new PrintStream(new File(FILEPATH + "/" + app_ID));
          fileout.println(app_ID);
          fileout.println(parseAppStatus(someStatus));
          fileout.flush();

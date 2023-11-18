@@ -69,12 +69,12 @@ public class AccountCreation {
     int application_ID = -1;
     String name = ""; /* [First Name] [Last Name] */
     String dob = ""; /* month/day/year */
-    int height = 0; /* In inches. */
-    int weight = 0; /* In pounds. */
+    String height = ""; /* In inches. */
+    String weight = ""; /* In pounds. */
     app_eyecolor eye_color = null; /* <app_eyecolor>: Br/BL/Gr */
     String country_of_origin = "";
     String email = "";
-    int phone_no = 0; /* 1234567890 */
+    String phone_no = ""; /* 1234567890 */
     String mailing_address = "";
 
     /* Private constructor. */
@@ -98,12 +98,12 @@ public class AccountCreation {
         this.application_ID = Integer.parseInt(fieldsList[FIELD_APPLICATIONID]);
         this.name = fieldsList[FIELD_NAME];
         this.dob = fieldsList[FIELD_DOB];
-        this.height = Integer.parseInt(fieldsList[FIELD_HEIGHT]);
-        this.weight = Integer.parseInt(fieldsList[FIELD_WEIGHT]);
+        this.height = fieldsList[FIELD_HEIGHT];
+        this.weight = fieldsList[FIELD_WEIGHT];
         this.eye_color = parseEyeColor(fieldsList[FIELD_EYECOLOR]);
         this.country_of_origin = fieldsList[FIELD_COUNTRYOFORIGIN];
         this.email = fieldsList[FIELD_EMAIL];
-        this.phone_no = Integer.parseInt(fieldsList[FIELD_PHONENO]);
+        this.phone_no = fieldsList[FIELD_PHONENO];
         this.mailing_address = fieldsList[FIELD_MAILINGADDRESS];
     }
 
@@ -118,7 +118,7 @@ public class AccountCreation {
     }
     
     //DONE
-    private static app_eyecolor parseEyeColor(String eyeColor){
+    public static app_eyecolor parseEyeColor(String eyeColor){
         /* Checking eyecolor. */
         if (eyeColor.toUpperCase().contentEquals("BROWN")) { return app_eyecolor.BROWN; }
         else if (eyeColor.toUpperCase().contentEquals("BLUE")) { return app_eyecolor.BLUE; }
@@ -128,7 +128,7 @@ public class AccountCreation {
     }
 
     //DONE
-    private static String parseEyeColor(app_eyecolor eyeColor){
+    public static String parseEyeColor(app_eyecolor eyeColor){
         if(eyeColor.equals(app_eyecolor.BROWN)){
             return "brown";
         }
@@ -252,7 +252,7 @@ public class AccountCreation {
             out.println(ac.dob);
             out.println(ac.height);
             out.println(ac.weight);
-            out.println(ac.eye_color);
+            out.println(parseEyeColor(ac.eye_color));
             out.println(ac.country_of_origin);
             out.println(ac.email);
             out.println(ac.phone_no);
@@ -271,7 +271,6 @@ public class AccountCreation {
     //returns the next appid
     private static int getNextAppId(){
         //scan file, get the highest number... next id is that +1
-        Scanner reader = null;
         int ans = 0;
         try{
             File top = new File(FILEPATH);
