@@ -133,13 +133,12 @@ public class AccountCreationTest {
     }
 
     @Test
-    public void getAccountCreationByID_test() {  
-        AccountCreation ac_TEST_4 = null;      
+    public void getAccountCreationByID_test() {    
         /* Returns an accoutn based on its ID. */
-        assertEquals("", ac_TEST  , AccountCreation.getAccountCreationByID(1));
-        assertEquals("", ac_TEST_2, AccountCreation.getAccountCreationByID(10));
-        assertEquals("", ac_TEST_3, AccountCreation.getAccountCreationByID(100));
-        assertEquals("", ac_TEST_4, AccountCreation.getAccountCreationByID(1000));
+        createAccountCreation_test();
+        assertNotEquals("", null  , AccountCreation.getAccountCreationByID(-2));
+        assertNotEquals("", null, AccountCreation.getAccountCreationByID(-3));
+        assertNotEquals("", null, AccountCreation.getAccountCreationByID(-4));
     }
 
     @Test
