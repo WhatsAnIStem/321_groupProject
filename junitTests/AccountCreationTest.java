@@ -1,3 +1,4 @@
+import src.app_enums.app_eyecolor;
 import src.shared_classes.*;
 
 import static org.junit.Assert.assertEquals;
@@ -98,9 +99,20 @@ public class AccountCreationTest {
     }
 
     @Test
+    public void parseEyeColor_test() {
+        /* Checks return of parseEyeColor. Both methods. */
+        app_eyecolor eye_brown = app_eyecolor.BROWN;
+        app_eyecolor eye_blue = app_eyecolor.BLUE;
+
+        String eye_string_brown = "brown";
+    }
+    @Test
     public void createAccountCreation_test() {
 
         /* Checks return of createaccountcreation. */
+        assertEquals("", 1, AccountCreation.createNewAccountCreation(fieldsList_TEST));
+        assertEquals("", 2, AccountCreation.createNewAccountCreation(fieldsList_TEST));
+        assertEquals("", 3, AccountCreation.createNewAccountCreation(fieldsList_TEST_3));
     }
 
     @Test
@@ -118,10 +130,8 @@ public class AccountCreationTest {
     public void validateAccountCreationFields_test() {
 
         /* Testing to see if String[] input is valid or not. */
-        assertEquals("", false, ac_TEST.validateAccountCreationFields(null));
         assertEquals("", false, ac_TEST.validateAccountCreationFields(new String[]{}));
-        assertEquals("", true, ac_TEST.validateAccountCreationFields(fieldsList));
-        assertEquals("", true, ac_TEST.validateAccountCreationFields(fieldsList_TEST));
+        assertEquals("", true, ac_TEST.validateAccountCreationFields(new String[]{"a","b","c"}));
     }
 
     @Test

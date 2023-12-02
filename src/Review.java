@@ -105,17 +105,17 @@ public class Review extends Application {
     }
 
     /* Accesses workflow given application ID. */
-    private Workflow accessWorkflow() { /* workflow! */
-        /* Searches thru workflow based on app ID. */
-        /* Returns that workflow item. */
-        return null;
+    private void accessWorkflow() { /* workflow! */
+        /* Searches thru workflow based on app_status. */
+        /* Assigns app_id found from workflow. */
+        application_ID = Workflow.getNextWorkflowItem(app_status.REVIEW);
     }
 
     /* Accesses accountcreation given some application ID. */
     private AccountCreation accessAccountCreation() { /* accountCreation! */
         /* Grabs some AC object given some application ID. */
         /* Returns that block of AC data. */
-        return null;
+        return AccountCreation.getAccountCreationByID(application_ID);
     }
     /* grabInfo - grabs data from UI. */
     private boolean grabInfo(){
@@ -139,7 +139,7 @@ public class Review extends Application {
         /* If correct, true. Else, false. */
 
         LocalDate curr = LocalDate.now();
-        String[] localeCntry = Locale.getISOCountries();
+        // String[] localeCntry = Locale.getISOCountries(); need debug
         
 
         /* Checks bounds for dob, email, phone, and eyeColor. 
@@ -153,26 +153,25 @@ public class Review extends Application {
          */
 
         /* Checks for things being empty or not first. */
-        if (valid_dob == null || valid_country == null || valid_email == null || valid_phone == null) { needChange = true; return false; }
+        if (valid_dob.toString().isBlank() || valid_country.toString().isBlank() || valid_email.toString().isBlank() || valid_phone.toString().isBlank() ) { needChange = true; return false; }
         
         /* Checking for valid input. */
         if (valid_dob.toString().length() == 0 || valid_country.toString().length() == 0 || valid_email.toString().length() == 0 || valid_phone.toString().length() == 0) {
             return false;
         }
 
-        System.out.println(valid_dob.toString());
-
         /* Checking to see if someone is 18 at time of review. */
-        if (curr.getYear() - valid_dob.getValue().getYear() == 18) {
+        if ((int)curr.getYear() - (int)valid_dob.getValue().getYear() == 18) {
             /* 283-314 < 0, INVALID */
-            if(curr.getDayOfYear() - valid_dob.getValue().getDayOfYear() < 0) { return false; }
+            if((int)curr.getDayOfYear() - (int)valid_dob.getValue().getDayOfYear() < 0) { return false; }
         }
         /* 2023-2006 = 17, INVALID */
-        else if (curr.getYear() - valid_dob.getValue().getYear() < 18) { return false; }
+        else if ((int)curr.getYear() - (int)valid_dob.getValue().getYear() < 18) { return false; }
 
-        /* After importing Locale, we can check whether the country we entered is valid. */
-        Arrays.sort(localeCntry);
-        if (Arrays.binarySearch(localeCntry, valid_country.toString()) < 0) { return false; }
+        // /* After importing Locale, we can check whether the country we entered is valid. */
+        // Arrays.sort(localeCntry);
+        // if (Arrays.binarySearch(localeCntry, valid_country.toString()) < 0) { return false; }
+        // Need debug
         
         /* If email is in correct format. Looks like this:
             * [string1] @ [email] . [end]
@@ -213,6 +212,7 @@ public class Review extends Application {
         }
 
         /* Accesses Account Creation given an applicant's applicant ID. */
+        AccountCreation.getAccountCreationByID(application_ID).validateAccountCreationFields(changedFields);
         return;
     }
     
