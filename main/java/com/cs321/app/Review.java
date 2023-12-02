@@ -126,12 +126,13 @@ public class Review extends Application {
     /* grabInfo - grabs data from UI. */
     private boolean grabInfo(){
         /* Harvesting user input from the fxml file. */
-        valid_dob = (DatePicker)reviewScene.lookup("#field_dob");
-        valid_country = (TextField)reviewScene.lookup("#field_coo");
-        valid_email = (TextField)reviewScene.lookup("#field_email");
-        valid_phone = (TextField)reviewScene.lookup("#field_phoneNumber");
+        valid_dob = (DatePicker)reviewScene.lookup("#validdob");
+        valid_country = (TextField)reviewScene.lookup("#valid_coo");
+        valid_email = (TextField)reviewScene.lookup("#valid_email");
+        valid_phone = (TextField)reviewScene.lookup("#valid_phoneNumber");
         /* Button for submitting review to the workflow. */
         submitReview = (Button)reviewScene.lookup("#button_submit");
+        accessMat = (Button)reviewScene.lookup("#accessMat");
 
         needChange = false;
 
