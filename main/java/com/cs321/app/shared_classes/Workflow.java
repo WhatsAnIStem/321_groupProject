@@ -1,10 +1,10 @@
-package src.shared_classes;
+package com.cs321.app.shared_classes;
 
 import java.io.File;
 import java.io.PrintStream;
 import java.util.Scanner;
 
-import src.app_enums.app_status;
+import com.cs321.app.app_enums.app_status;
 
 /* FILE DATA SHOULD BE FORMATTED AS SO:
  * FILE NAME: applicant_id
@@ -27,7 +27,7 @@ class app_Node {
 public class Workflow {
    private app_Node head = null;
 
-   private static final String FILEPATH = "./src/shared_classes/WorkflowData";
+   private static final String FILEPATH = "./src/main/java/com/cs321/app/shared_classes/WorkflowData";
    private static Workflow workflow = new Workflow();
 
    public static void InitializeWorkflow(){

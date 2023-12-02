@@ -1,4 +1,4 @@
-package src;
+package com.cs321.app;
 
 import javafx.event.EventHandler;
 import javafx.event.ActionEvent;
@@ -12,11 +12,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
-import javafx.scene.input.InputEvent;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import src.shared_classes.AccountCreation;
-import src.shared_classes.Workflow;
+import com.cs321.app.shared_classes.AccountCreation;
+import com.cs321.app.shared_classes.Workflow;
 
 public class DataEntry extends Application{
 

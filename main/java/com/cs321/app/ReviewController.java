@@ -1,9 +1,4 @@
-package src;
-
-import src.app_enums.app_status;
-import src.shared_classes.AccountCreation;
-import src.shared_classes.Workflow;
-
+package com.cs321.app;
 
 public class ReviewController{
 
