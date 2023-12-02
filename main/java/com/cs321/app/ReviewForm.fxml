@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<TitledPane animated="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" text="Review" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+  <content>
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+         <children>
+            <Label layoutX="14.0" layoutY="10.0" text="First Name:" />
+            <Label layoutX="14.0" layoutY="35.0" text="Last Name:" />
+            <Label layoutX="14.0" layoutY="60.0" text="Middle Name:" />
+            <Label layoutX="14.0" layoutY="92.0" text="Date of Birth:" />
+            <Label layoutX="14.0" layoutY="125.0" text="Height:" />
+            <Label layoutX="14.0" layoutY="150.0" text="Weight:" />
+            <Label layoutX="14.0" layoutY="185.0" text="Eye Color:" />
+            <Label layoutX="14.0" layoutY="222.0" text="Country of Origin:" />
+            <Label layoutX="14.0" layoutY="261.0" text="E-mail:" />
+            <Label layoutX="14.0" layoutY="287.0" text="Phone:" />
+            <Label layoutX="14.0" layoutY="312.0" text="Address:" />
+            <TextField layoutX="120.0" layoutY="4.0" />
+            <TextField layoutX="120.0" layoutY="29.0" />
+            <TextField layoutX="120.0" layoutY="54.0" />
+            <TextField layoutX="120.0" layoutY="121.0" />
+            <TextField layoutX="120.0" layoutY="146.0" />
+            <TextField fx:id="valid_email" layoutX="120.0" layoutY="258.0" />
+            <TextField fx:id="valid_phone" layoutX="120.0" layoutY="283.0" />
+            <TextField layoutX="120.0" layoutY="308.0" />
+            <DatePicker fx:id="valid_dob" layoutX="95.0" layoutY="88.0" />
+            <ChoiceBox layoutX="120.0" layoutY="180.0" prefWidth="150.0" />
+            <ChoiceBox fx:id="valid_country" layoutX="121.0" layoutY="219.0" prefWidth="150.0" />
+            <Button fx:id="button_submit" layoutX="461.0" layoutY="206.0" mnemonicParsing="false" text="Submit Review" />
+            <Button layoutX="482.0" layoutY="146.0" mnemonicParsing="false" text="Access Info" />
+         </children></AnchorPane>
+  </content>
+</TitledPane>
