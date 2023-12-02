@@ -72,7 +72,7 @@ public class Review extends Application {
         this.reviewStage = primaryStage;
 
         /* Showing the fxml file to the user. */
-        Parent myFXML = FXMLLoader.load(this.getClass().getResource("./MainForm.fxml"));
+        Parent myFXML = FXMLLoader.load(this.getClass().getResource("./ReviewForm.fxml"));
         reviewScene = new Scene(myFXML, 400, 300);
         reviewStage.setTitle("Review Application Window");
         reviewStage.setScene(reviewScene);
