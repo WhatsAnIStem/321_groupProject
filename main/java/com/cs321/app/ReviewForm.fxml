@@ -35,6 +35,7 @@
             <ChoiceBox layoutX="120.0" layoutY="180.0" prefWidth="150.0" />
             <ChoiceBox fx:id="valid_country" layoutX="121.0" layoutY="219.0" prefWidth="150.0" />
             <Button fx:id="button_submit" layoutX="461.0" layoutY="206.0" mnemonicParsing="false" text="Submit Review" />
+            <Button layoutX="482.0" layoutY="146.0" mnemonicParsing="false" text="Access Info" />
          </children></AnchorPane>
   </content>
 </TitledPane>
