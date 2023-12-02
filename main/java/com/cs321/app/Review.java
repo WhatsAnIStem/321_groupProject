@@ -59,7 +59,7 @@ public class Review extends Application {
     private String[] changedFields;
     private boolean needChange;
     private Button submitReview;
-
+    private Button accessMat;
     /* Constructor method that initializes status and ID of application. 
     public Review(int app_ID, app_status status) { // app_staus! 
         this.application_ID = app_ID; 
@@ -78,11 +78,16 @@ public class Review extends Application {
         reviewStage.setScene(reviewScene);
         reviewStage.show();
 
+        EventHandler accessInfo = new EventHandler<ActionEvent>(){
+            public void handle(ActionEvent AE) {
+                accessWorkflow();
+                accessAccountCreation();
+            }
+        };
         EventHandler reviewHandler = new EventHandler<ActionEvent>(){
             public void handle(ActionEvent AE){
                 //when clicked, get all the field entrys, validate, etc...
-                accessWorkflow();
-                accessAccountCreation();
+
                 grabInfo();
                 //if all the fields pass validation...
                 if(validateApplication()){
@@ -102,6 +107,7 @@ public class Review extends Application {
 
         ((Button)(reviewScene.lookup("#button_submit"))).setOnAction(reviewHandler);
         submitReview.setOnAction(reviewHandler);
+        accessMat.setOnAction(accessInfo);
     }
 
     /* Accesses workflow given application ID. */
