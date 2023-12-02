@@ -1,5 +1,7 @@
-import src.app_enums.app_eyecolor;
-import src.shared_classes.*;
+package com.cs321.app;
+
+import com.cs321.app.app_enums.app_eyecolor;
+import com.cs321.app.shared_classes.*;
 
 import static org.junit.Assert.assertEquals;
 

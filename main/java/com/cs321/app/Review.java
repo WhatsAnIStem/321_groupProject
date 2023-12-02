@@ -153,7 +153,7 @@ public class Review extends Application {
          */
 
         /* Checks for things being empty or not first. */
-        if (valid_dob.toString().isBlank() || valid_country.toString().isBlank() || valid_email.toString().isBlank() || valid_phone.toString().isBlank() ) { needChange = true; return false; }
+        if (valid_dob.toString().isEmpty() || valid_country.toString().isEmpty() || valid_email.toString().isEmpty() || valid_phone.toString().isEmpty() ) { needChange = true; return false; }
         
         /* Checking for valid input. */
         if (valid_dob.toString().length() == 0 || valid_country.toString().length() == 0 || valid_email.toString().length() == 0 || valid_phone.toString().length() == 0) {

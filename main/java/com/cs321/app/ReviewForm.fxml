@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
@@ -7,7 +8,7 @@
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<TitledPane animated="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" text="Review" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21">
+<TitledPane animated="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" text="Review" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
   <content>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
          <children>
@@ -33,6 +34,7 @@
             <DatePicker fx:id="valid_dob" layoutX="95.0" layoutY="88.0" />
             <ChoiceBox layoutX="120.0" layoutY="180.0" prefWidth="150.0" />
             <ChoiceBox fx:id="valid_country" layoutX="121.0" layoutY="219.0" prefWidth="150.0" />
+            <Button fx:id="button_submit" layoutX="461.0" layoutY="206.0" mnemonicParsing="false" text="Submit Review" />
          </children></AnchorPane>
   </content>
 </TitledPane>
