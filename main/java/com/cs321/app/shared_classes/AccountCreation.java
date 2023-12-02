@@ -45,8 +45,8 @@ public class AccountCreation {
 
 
     /* fields for consistent and easy input field access */
-    public static final short FIELD_APPLICATIONID = 0;
-    public static final short FIELD_ALIENNUMBER = 1;
+    public static final short FIELD_APPLICATIONID = 1;
+    public static final short FIELD_ALIENNUMBER = 0;
     public static final short FIELD_NAME = 2;
     public static final short FIELD_DOB = 3;
     public static final short FIELD_HEIGHT = 4;
@@ -62,17 +62,17 @@ public class AccountCreation {
     private static final String FILEPATH = "./src/main/java/com/cs321/app/shared_classes/AccountCreationData";
 
     /* Demographics. */
-    int alien_number = -1;
-    int application_ID = -1;
-    String name = ""; /* [First Name] [Last Name] */
-    String dob = ""; /* month/day/year */
-    String height = ""; /* In inches. */
-    String weight = ""; /* In pounds. */
-    app_eyecolor eye_color = null; /* <app_eyecolor>: Br/BL/Gr */
-    String country_of_origin = "";
-    String email = "";
-    String phone_no = ""; /* 1234567890 */
-    String mailing_address = "";
+    public int alien_number = -1;
+    public int application_ID = -1;
+    public String name = ""; /* [First Name] [Last Name] */
+    public String dob = ""; /* month/day/year */
+    public String height = ""; /* In inches. */
+    public String weight = ""; /* In pounds. */
+    public app_eyecolor eye_color = null; /* <app_eyecolor>: Br/BL/Gr */
+    public String country_of_origin = "";
+    public String email = "";
+    public String phone_no = ""; /* 1234567890 */
+    public String mailing_address = "";
 
     /* Private constructor. */
     private AccountCreation(String[] fieldsList) {
@@ -147,7 +147,10 @@ public class AccountCreation {
         //assign an applicantid
         //save to database...
         fieldsList[FIELD_ALIENNUMBER] = "-1";
-        fieldsList[FIELD_APPLICATIONID] = ("" +  application_IDTracker);
+        if(fieldsList[FIELD_APPLICATIONID].equals("")){
+            fieldsList[FIELD_APPLICATIONID] = ("" +  application_IDTracker);
+        }
+        
         application_IDTracker++;
         AccountCreation ans = new AccountCreation(fieldsList);
         saveAccountCreationToDatabase(ans);
@@ -165,9 +168,9 @@ public class AccountCreation {
                 //if we found the child we want, read and build, return
                 String[] fieldsList = new String[FIELD_NUMFIELDS];
                 try{
-                    reader = new Scanner(FILEPATH + "/" + app_ID);
-                    fieldsList[FIELD_APPLICATIONID] = reader.nextLine();
+                    reader = new Scanner(child);
                     fieldsList[FIELD_ALIENNUMBER] = reader.nextLine();
+                    fieldsList[FIELD_APPLICATIONID] = reader.nextLine();
                     fieldsList[FIELD_NAME] = reader.nextLine();
                     fieldsList[FIELD_DOB] = reader.nextLine();
                     fieldsList[FIELD_HEIGHT] = reader.nextLine();
@@ -201,11 +204,11 @@ public class AccountCreation {
         /* Returns true for correct, else false. */
 
         /* Does not accept invalid input for validation. */
-        if (fieldsList.length != 9) { return false; }
+        if (fieldsList.length != FIELD_NUMFIELDS) { return false; }
         for (int i = 0; i < fieldsList.length; i++) {
             /* Loops thru fields list to see if we have empty fields. */
-            if (fieldsList[i].length() == 0) { return false; }
-            if (fieldsList[i].compareTo(null) == 0) { return false; }
+            if (fieldsList[i] == null) { return false; }
+            if (fieldsList[i].length() == 0) { return false;}
             if (fieldsList[i].isEmpty()) { return false; }
         }
 

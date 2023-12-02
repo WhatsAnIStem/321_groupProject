@@ -4,6 +4,7 @@ import com.cs321.app.app_enums.app_eyecolor;
 import com.cs321.app.shared_classes.*;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 import org.junit.*;
 
@@ -17,11 +18,13 @@ public class AccountCreationTest {
 
     private String[] fieldsList = 
         {
+            "-1",
+            "-2",
             "Chippy Mcdonald",
             "Feb/2/1996",
             "165",
             "165",
-            "Green",
+            "green",
             "Ireland",
             "chippy_m334@email.com",
             "1234567890",
@@ -30,11 +33,13 @@ public class AccountCreationTest {
 
     private String[] fieldsList_TEST = 
         {
+            "-1",
+            "-3",
             "Horizon Hall",
             "Jan/21/2023",
             "100002",
             "100002",
-            "Blue",
+            "blue",
             "France",
             "horizon4456_hall@email.com",
             "0987654321",
@@ -43,11 +48,13 @@ public class AccountCreationTest {
 
     private String[] fieldsList_TEST_3 = 
         {
+            "-1",
+            "-4",
             "Tom Lee",
             "May/23/1998",
             "151512",
             "151512",
-            "Brown",
+            "brown",
             "China",
             "tom_lee223@email.com",
             "3216549870",
@@ -105,22 +112,24 @@ public class AccountCreationTest {
         /* Checks return of parseEyeColor. Both methods. */
         app_eyecolor eye_brown = app_eyecolor.BROWN;
         app_eyecolor eye_blue = app_eyecolor.BLUE;
+        app_eyecolor eye_green = app_eyecolor.GREEN;
         String eye_string_brown = "brown";
         String eye_string_blue = "blue";
+        String eye_string_green = "green";
 
         assertEquals("", eye_string_brown, AccountCreation.parseEyeColor(eye_brown));
-        assertEquals("", eye_string_brown, AccountCreation.parseEyeColor(eye_blue));
         assertEquals("", eye_string_blue, AccountCreation.parseEyeColor(eye_blue));
+        assertEquals("", eye_string_green, AccountCreation.parseEyeColor(eye_green));
         assertEquals("", eye_brown, AccountCreation.parseEyeColor(eye_string_brown));
-        assertEquals("", eye_blue, AccountCreation.parseEyeColor(eye_string_brown));
         assertEquals("", eye_blue, AccountCreation.parseEyeColor(eye_string_blue));
+        assertEquals("", eye_green, AccountCreation.parseEyeColor(eye_string_green));
     }
     @Test
     public void createAccountCreation_test() {
         /* Checks return of createaccountcreation. */
-        assertEquals("", 1, AccountCreation.createNewAccountCreation(fieldsList_TEST));
-        assertEquals("", 2, AccountCreation.createNewAccountCreation(fieldsList_TEST));
-        assertEquals("", 3, AccountCreation.createNewAccountCreation(fieldsList_TEST_3));
+        assertEquals("", -2, AccountCreation.createNewAccountCreation(fieldsList));
+        assertEquals("", -3, AccountCreation.createNewAccountCreation(fieldsList_TEST));
+        assertEquals("", -4, AccountCreation.createNewAccountCreation(fieldsList_TEST_3));
     }
 
     @Test
@@ -136,25 +145,26 @@ public class AccountCreationTest {
     @Test
     public void validateAccountCreationFields_test() {
         /* Testing to see if String[] input is valid or not. */
-        assertEquals("", false, ac_TEST.validateAccountCreationFields(new String[]{}));
-        assertEquals("", true, ac_TEST.validateAccountCreationFields(new String[]{"a","b","c"}));
+        assertEquals("", false, AccountCreation.validateAccountCreationFields(new String[]{}));
+        assertEquals("", true, AccountCreation.validateAccountCreationFields(fieldsList));
     }
 
     @Test
     public void finalizeAccountCreation_test() {
-        ac_TEST.finalizeAccountCreation(1);
-        ac_TEST_2.finalizeAccountCreation(10);
+        createAccountCreation_test();
+        AccountCreation.finalizeAccountCreation(-2);
+        AccountCreation.finalizeAccountCreation(-3);
         /* Checks to see if the finalize acc creation activated. This can be checked via the status of the application being null or its ID. */
         /* The account should no longer exist. */
-        assertEquals("", null, ac_TEST.getAccountCreationByID(1));
-        assertEquals("", null, ac_TEST_2.getAccountCreationByID(10));
+        assertNotEquals("", -1, AccountCreation.getAccountCreationByID(-2).alien_number);
+        assertNotEquals("", -1, AccountCreation.getAccountCreationByID(-3).alien_number);
 
         /* Not deleted yet. */
-        assertEquals("", ac_TEST_3, ac_TEST_3.getAccountCreationByID(100));
+        assertEquals("", -1, AccountCreation.getAccountCreationByID(-4).alien_number);
 
         /* Deleted. */
-        ac_TEST_3.finalizeAccountCreation(100);
-        assertEquals("", null, ac_TEST_3.getAccountCreationByID(100));
+        AccountCreation.finalizeAccountCreation(-4);
+        assertNotEquals("", -1, AccountCreation.getAccountCreationByID(-4));
 
 
     }
