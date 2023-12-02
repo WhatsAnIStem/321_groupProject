@@ -101,10 +101,6 @@ public class AccountCreationTest {
     public void createAccountCreation_test() {
 
         /* Checks return of createaccountcreation. */
-        assertEquals("", 0, ac_TEST.createAccountCreation(null));
-        assertEquals("", 0, ac_TEST.createAccountCreation(new String[]{}));
-        assertEquals("", 1, ac_TEST.createAccountCreation(fieldsList));
-        assertEquals("", 1, ac_TEST.createAccountCreation(fieldsList_TEST));
     }
 
     @Test

@@ -26,15 +26,19 @@ class app_Node {
 /* Workflow. */
 public class Workflow {
    private app_Node head = null;
-   private int length;
 
    private static final String FILEPATH = "./src/shared_classes/WorkflowData";
    private static Workflow workflow = new Workflow();
 
+   public static void InitializeWorkflow(){
+      if(workflow == null){
+         workflow = new Workflow();
+      }
+   }
+
    /* Initializing SLL. */
    private Workflow() {
       this.head = null;
-      length = 0;
       //need to read file and set head and tail accordingly.
       File data =  new File(FILEPATH);
       //System.out.println(data.getAbsolutePath());
@@ -57,9 +61,8 @@ public class Workflow {
             field = reader.nextLine();
             node.application_status = parseAppStatus(field);
             //insert into workflow
-            if(!insertWorkflowNode(node)){
-               System.err.println("Failed to insert node id: " + node.application_ID);
-            }
+            this.head = insertWorkflowNode(node, this.head);
+               
          }
          catch(Exception E){
             System.err.println("Error reading file path: " + fileItem.toPath());
@@ -73,6 +76,36 @@ public class Workflow {
       }
    }
 
+   private static app_Node insertWorkflowNode(app_Node newNode, app_Node head){
+      app_Node curr = head;
+      if(curr == null){
+         return newNode;
+      }
+      else if(curr.application_ID > newNode.application_ID){
+         newNode.next = curr;
+         return newNode;
+      }
+      else{
+         while(curr.next != null && newNode.application_ID > curr.next.application_ID){
+            curr = curr.next;
+         }
+         //at this point, curr's next is either null , the same id as curr, or the right spot..
+         if(curr.next == null){
+            if(curr.application_ID == newNode.application_ID){
+               return head;
+            }
+            curr.next = newNode;
+            return head;
+         }
+         if(curr.next.application_ID == newNode.application_ID){
+            return head;
+         }
+         newNode.next = curr.next.next;
+         curr.next = newNode;
+      }
+      return head;
+   }
+
    /* Add node to LL. */
    //precondition: application_ID must be greater than zero for successful addition --ti
    //returns true on success, or false on any failure
@@ -82,22 +115,36 @@ public class Workflow {
       if(curr == null){
          workflow.head = newNode;
       }
+      else if(curr.application_ID > newNode.application_ID){
+         newNode.next = curr;
+         workflow.head = newNode;
+         return true;
+      }
+      else if(curr.application_ID == newNode.application_ID){
+         return false;
+      }
       else{
          while(curr.next != null && newNode.application_ID > curr.next.application_ID){
             curr = curr.next;
          }
          //at this point, curr's next is either null , the same id as curr, or the right spot..
+         if(curr.next == null){
+            if(curr.application_ID == newNode.application_ID){
+               return false;
+            }
+            curr.next = newNode;
+            return true;
+         }
          if(curr.next.application_ID == newNode.application_ID){
             return false;
          }
-         newNode.next = curr.next.next;
+         newNode.next = curr.next;
          curr.next = newNode;
       }
-      workflow.length++;
       return true;
    }
 
-   public static boolean makeNewWorkflowItem(int application_ID) {
+   public static synchronized boolean makeNewWorkflowItem(int application_ID) {
        
       if(application_ID < 0){
          return false;
@@ -166,12 +213,8 @@ public class Workflow {
          //if we intend to remove the node..
          if(someStatus == null){
             //unlink the node and remove the file...
+            updateWorkflowFile(app_ID, someStatus);
             curr.next = curr.next.next;
-            //remove file...
-            try{
-               new File(FILEPATH + "/" + app_ID).delete();
-            }
-            catch(Exception E){}
          }
          else{
             //update node and update file...
@@ -184,7 +227,15 @@ public class Workflow {
    private static boolean updateWorkflowFile(int app_ID, app_status someStatus){
       PrintStream fileout = null;
       try{
-         fileout = new PrintStream(new File(FILEPATH + "/" + app_ID));
+         File file = new File(FILEPATH + "/" + app_ID);
+         if(!file.exists() && someStatus == null){
+            return false;
+         }
+         if(someStatus == null){
+            file.delete();
+            return true;
+         }
+         fileout = new PrintStream(file);
          fileout.println(app_ID);
          fileout.println(parseAppStatus(someStatus));
          fileout.flush();
