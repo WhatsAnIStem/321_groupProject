@@ -1,15 +1,13 @@
-package src.shared_classes;
+package com.cs321.app.shared_classes;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
-import src.app_enums.app_eyecolor;
-import src.app_enums.app_status;
+import com.cs321.app.app_enums.app_eyecolor;
 
 import java.io.File;
 import java.io.PrintStream;
-import java.util.Collections;
 
 /* Credits: Diane Hamilton. Ti Ervin. */
 /* Account creation class that creates an account. */
@@ -43,7 +41,6 @@ public class AccountCreation {
      */
 
     /* global fields for keeping track of the amount of applications (we assign the IDs sequentially)*/
-    private static int alien_numberTracker = 0;
     private static int application_IDTracker = getNextAppId();
 
 
@@ -62,7 +59,7 @@ public class AccountCreation {
     public static final short FIELD_NUMFIELDS = 11;
 
     public static final List<String> EYE_COLOR_VALUES = buildEyeColorList();
-    private static final String FILEPATH = "./src/shared_classes/AccountCreationData";
+    private static final String FILEPATH = "./src/main/java/com/cs321/app/shared_classes/AccountCreationData";
 
     /* Demographics. */
     int alien_number = -1;
@@ -209,7 +206,7 @@ public class AccountCreation {
             /* Loops thru fields list to see if we have empty fields. */
             if (fieldsList[i].length() == 0) { return false; }
             if (fieldsList[i].compareTo(null) == 0) { return false; }
-            if (fieldsList[i].isBlank()) { return false; }
+            if (fieldsList[i].isEmpty()) { return false; }
         }
 
         return true;

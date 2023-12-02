@@ -1,11 +1,10 @@
-package src;
+package com.cs321.app;
 
-import src.app_enums.app_status;
-import src.shared_classes.AccountCreation;
-import src.shared_classes.Workflow;
+import com.cs321.app.app_enums.app_status;
+import com.cs321.app.shared_classes.AccountCreation;
+import com.cs321.app.shared_classes.Workflow;
 
 import java.util.Arrays;
-import java.util.Collections;
 
 /* UI import stuff. */
 import javafx.event.EventHandler;
@@ -14,7 +13,6 @@ import javafx.event.ActionEvent;
 import java.time.LocalDate;
 
 import javafx.application.Application;
-import javafx.collections.FXCollections;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -25,7 +23,6 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 // import javafx.scene.control.CheckBox;
 
-import javafx.scene.input.InputEvent;
 // import javafx.scene.text.Text;
 import javafx.stage.Stage;
 

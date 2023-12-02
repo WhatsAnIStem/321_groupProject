@@ -1,4 +1,4 @@
-package src;
+package com.cs321.app;
 
 public class DataEntryController{
     

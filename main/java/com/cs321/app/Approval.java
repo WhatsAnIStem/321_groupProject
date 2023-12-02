@@ -1,7 +1,7 @@
-package src;
-import src.shared_classes.AccountCreation;
-import src.shared_classes.Workflow;
-import src.app_enums.app_status;
+package com.cs321.app;
+import com.cs321.app.shared_classes.AccountCreation;
+import com.cs321.app.shared_classes.Workflow;
+import com.cs321.app.app_enums.app_status;
 import javafx.event.EventHandler;
 import javafx.event.ActionEvent;
 import javafx.application.Application;

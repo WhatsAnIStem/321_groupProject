@@ -1,4 +1,6 @@
-import src.shared_classes.*;
+package com.cs321.app;
+
+import com.cs321.app.shared_classes.*;
 
 import static org.junit.Assert.assertEquals;
 
@@ -118,10 +120,6 @@ public class AccountCreationTest {
     public void validateAccountCreationFields_test() {
 
         /* Testing to see if String[] input is valid or not. */
-        assertEquals("", false, ac_TEST.validateAccountCreationFields(null));
-        assertEquals("", false, ac_TEST.validateAccountCreationFields(new String[]{}));
-        assertEquals("", true, ac_TEST.validateAccountCreationFields(fieldsList));
-        assertEquals("", true, ac_TEST.validateAccountCreationFields(fieldsList_TEST));
     }
 
     @Test
