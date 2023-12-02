@@ -103,12 +103,18 @@ public class AccountCreationTest {
         /* Checks return of parseEyeColor. Both methods. */
         app_eyecolor eye_brown = app_eyecolor.BROWN;
         app_eyecolor eye_blue = app_eyecolor.BLUE;
-
         String eye_string_brown = "brown";
+        String eye_string_blue = "blue";
+
+        assertEquals("", eye_string_brown, AccountCreation.parseEyeColor(eye_brown));
+        assertEquals("", eye_string_brown, AccountCreation.parseEyeColor(eye_blue));
+        assertEquals("", eye_string_blue, AccountCreation.parseEyeColor(eye_blue));
+        assertEquals("", eye_brown, AccountCreation.parseEyeColor(eye_string_brown));
+        assertEquals("", eye_blue, AccountCreation.parseEyeColor(eye_string_brown));
+        assertEquals("", eye_blue, AccountCreation.parseEyeColor(eye_string_blue));
     }
     @Test
     public void createAccountCreation_test() {
-
         /* Checks return of createaccountcreation. */
         assertEquals("", 1, AccountCreation.createNewAccountCreation(fieldsList_TEST));
         assertEquals("", 2, AccountCreation.createNewAccountCreation(fieldsList_TEST));
@@ -118,7 +124,6 @@ public class AccountCreationTest {
     @Test
     public void getAccountCreationByID_test() {  
         AccountCreation ac_TEST_4 = null;      
-
         /* Returns an accoutn based on its ID. */
         assertEquals("", ac_TEST  , AccountCreation.getAccountCreationByID(1));
         assertEquals("", ac_TEST_2, AccountCreation.getAccountCreationByID(10));
@@ -128,7 +133,6 @@ public class AccountCreationTest {
 
     @Test
     public void validateAccountCreationFields_test() {
-
         /* Testing to see if String[] input is valid or not. */
         assertEquals("", false, ac_TEST.validateAccountCreationFields(new String[]{}));
         assertEquals("", true, ac_TEST.validateAccountCreationFields(new String[]{"a","b","c"}));
@@ -138,8 +142,6 @@ public class AccountCreationTest {
     public void finalizeAccountCreation_test() {
         ac_TEST.finalizeAccountCreation(1);
         ac_TEST_2.finalizeAccountCreation(10);
-
-
         /* Checks to see if the finalize acc creation activated. This can be checked via the status of the application being null or its ID. */
         /* The account should no longer exist. */
         assertEquals("", null, ac_TEST.getAccountCreationByID(1));
