@@ -81,6 +81,8 @@ public class Review extends Application {
         EventHandler reviewHandler = new EventHandler<ActionEvent>(){
             public void handle(ActionEvent AE){
                 //when clicked, get all the field entrys, validate, etc...
+                accessWorkflow();
+                accessAccountCreation();
                 grabInfo();
                 //if all the fields pass validation...
                 if(validateApplication()){
@@ -99,6 +101,7 @@ public class Review extends Application {
         };
 
         ((Button)(reviewScene.lookup("#button_submit"))).setOnAction(reviewHandler);
+        submitReview.setOnAction(reviewHandler);
     }
 
     /* Accesses workflow given application ID. */
